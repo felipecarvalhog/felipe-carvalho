@@ -11,6 +11,10 @@ export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL
 ).replace(/\/+$/, '');
 
+export const waitlistEndpoint =
+  process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT ||
+  'http://localhost:8787/waitlist';
+
 /**
  * Review mode surfaces explicit "pending" markers for everything the
  * professional still has to confirm. It must be off in production.

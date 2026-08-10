@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { siteUrl } from '@/config/public-env';
 
+export const dynamic = 'force-static';
+
 /** Only indexable pages. `/onboarding` is intentionally absent. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

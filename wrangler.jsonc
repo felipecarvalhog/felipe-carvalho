@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "felipe-carvalho-waitlist",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-09",
+  "vars": {
+    "ALLOWED_ORIGINS": "https://psicologogay.hudilabs.com,http://localhost:3210",
+    "GOOGLE_SHEET_RANGE": "Waitlist!A:J",
+    "RATE_LIMIT_MAX": "5",
+    "RATE_LIMIT_WINDOW_SECONDS": "60",
+    "DEDUPE_TTL_SECONDS": "15552000"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "WAITLIST_KV",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+    }
+  ]
+}

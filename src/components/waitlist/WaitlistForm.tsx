@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useId, useRef, useState } from 'react';
+import { waitlistEndpoint } from '@/config/public-env';
 import type { WaitlistContent } from '@/config/types';
 import { formatBrazilianPhone } from '@/lib/phone';
 import {
@@ -55,7 +56,7 @@ const FIELD_ORDER: Array<keyof Values> = [
 export function WaitlistForm({
   copy,
   privacyHref,
-  endpoint = '/api/waitlist',
+  endpoint = waitlistEndpoint,
 }: WaitlistFormProps) {
   const [values, setValues] = useState<Values>(initialValues);
   const [errors, setErrors] = useState<WaitlistFieldErrors>({});
@@ -145,7 +146,12 @@ export function WaitlistForm({
         | WaitlistApiResponse
         | null;
 
-      if (response.ok && body?.status === 'success') {
+      if (
+        response.ok &&
+        body?.status === 'success' &&
+        body.delivery.persisted &&
+        !body.delivery.simulated
+      ) {
         setDelivery(body.delivery);
         setState('success');
         window.setTimeout(() => successRef.current?.focus(), 0);

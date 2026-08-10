@@ -85,7 +85,7 @@ describe('WaitlistForm', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('shows the simulated-delivery banner on a mock success', async () => {
+  it('rejects a success response that did not persist the submission', async () => {
     const user = userEvent.setup();
     fetchMock.mockResolvedValue(
       jsonResponse({
@@ -99,9 +99,9 @@ describe('WaitlistForm', () => {
     await user.click(submitButton());
 
     await waitFor(() =>
-      expect(screen.getByText(copy.successMessage.value)).toBeInTheDocument(),
+      expect(screen.getByText(copy.errorMessage.value)).toBeInTheDocument(),
     );
-    expect(screen.getByText(new RegExp(copy.mockNotice.value.slice(0, 30)))).toBeInTheDocument();
+    expect(screen.queryByText(copy.successMessage.value)).not.toBeInTheDocument();
   });
 
   it('hides the simulated-delivery banner on a real delivery', async () => {
@@ -203,7 +203,7 @@ describe('WaitlistForm', () => {
     resolveFetch?.(
       jsonResponse({
         status: 'success',
-        delivery: { adapter: 'mock', persisted: false, simulated: true },
+        delivery: { adapter: 'webhook', persisted: true, simulated: false },
       }),
     );
 

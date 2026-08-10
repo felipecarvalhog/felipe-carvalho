@@ -1,14 +1,6 @@
 # felipe-carvalho-hudi-pages
 
-Site institucional (MVP) de **Felipe Gonzaga de Carvalho Gondim — Psicólogo — CRP 02/23810**.
-
-Duas entregas em um único projeto:
-
-- **`/`** — landing page pública, indexável, cuja conversão principal é entrar na
-  lista de espera.
-- **`/onboarding`** — questionário privado (protótipo, sem autenticação) que
-  transforma as decisões do profissional em especificação. As respostas ficam
-  apenas no navegador.
+Site institucional estático de **Felipe Gonzaga de Carvalho Gondim — Psicólogo — CRP 02/23810**, publicado no GitHub Pages. A lista de espera usa uma Cloudflare Worker e só confirma o envio depois que a Google Sheets API persiste o registro.
 
 > **Aviso obrigatório antes de publicar:** este MVP ainda **não** passou por
 > revisão ética (CFP) nem jurídica (LGPD) pelo profissional. Política de
@@ -38,8 +30,9 @@ npm run dev                    # http://localhost:3210
 | Script | O que faz |
 | --- | --- |
 | `npm run dev` | Servidor de desenvolvimento na porta **3210** |
-| `npm run build` | Build de produção |
-| `npm start` | Servidor de produção na porta **3210** |
+| `npm run build` | Gera o site estático em `out/` |
+| `npm run worker:dev` | Executa a Worker localmente |
+| `npm run worker:deploy` | Publica a Worker pela configuração do Wrangler |
 | `npm run lint` | ESLint (flat config + `eslint-config-next`) |
 | `npm run typecheck` | `tsc --noEmit`, TypeScript em modo estrito |
 | `npm test` | Vitest (jsdom + Testing Library), execução única |
@@ -48,62 +41,21 @@ npm run dev                    # http://localhost:3210
 
 ## Variáveis de ambiente
 
-Todas estão documentadas em `.env.example`. Só variáveis com prefixo
-`NEXT_PUBLIC_` chegam ao navegador; as demais existem apenas no servidor.
+Todas as variáveis do frontend estão documentadas em `.env.example`. Os segredos da integração são cadastrados diretamente na Cloudflare, nunca em arquivos locais versionados.
 
 | Variável | Escopo | Para que serve |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | público | URL canônica usada em metadata, Open Graph, `sitemap.xml` e `robots.txt` |
+| `NEXT_PUBLIC_WAITLIST_ENDPOINT` | público | URL HTTPS de `POST /waitlist` na Worker |
 | `NEXT_PUBLIC_REVIEW_MODE` | público | `true` exibe os marcadores de pendência. **Nunca habilite em produção** |
-| `WAITLIST_ADAPTER` | servidor | `mock` ou `webhook` |
-| `WAITLIST_WEBHOOK_URL` | servidor | Destino do POST quando o adaptador é `webhook` |
-| `WAITLIST_WEBHOOK_TOKEN` | servidor | Bearer token opcional para o webhook |
-| `WAITLIST_RATE_LIMIT_MAX` | servidor | Envios permitidos por IP na janela |
-| `WAITLIST_RATE_LIMIT_WINDOW_MS` | servidor | Tamanho da janela, em milissegundos |
-
-`src/config/server-env.ts` lança um erro se for importado no navegador, para que
-um import acidental falhe alto em vez de silenciosamente.
 
 ---
 
-## Como configurar o adaptador da lista de espera
+## Lista de espera
 
-O destino dos dados é trocado sem tocar no handler da rota
-(`src/lib/waitlist/adapter.ts`).
+A Worker valida novamente o schema Zod, restringe CORS, limita o corpo, aplica honeypot, rate limit e deduplicação no Cloudflare KV e grava colunas fixas no Google Sheets. Nome, e-mail e telefone não são emitidos em logs. O navegador rejeita qualquer resposta de sucesso sem `persisted: true`.
 
-**`mock` (padrão)** — não guarda nada e não envia nada. A resposta traz
-`persisted: false, simulated: true`, e a tela de sucesso exibe um aviso visível
-de que o envio foi simulado. É intencional: o modo de teste nunca finge que um
-contato foi salvo.
-
-**`webhook`** — faz um `POST` JSON para `WAITLIST_WEBHOOK_URL`, com
-`Authorization: Bearer …` quando `WAITLIST_WEBHOOK_TOKEN` estiver definido, e
-timeout de 8 s.
-
-```bash
-WAITLIST_ADAPTER=webhook
-WAITLIST_WEBHOOK_URL=https://exemplo.com/hooks/lista-de-espera
-WAITLIST_WEBHOOK_TOKEN=um-token-forte
-```
-
-Corpo enviado:
-
-```json
-{
-  "fullName": "…",
-  "email": "…",
-  "phone": "+5581900000000",
-  "contactPreference": "email",
-  "availability": "manha",
-  "referral": "…",
-  "consent": true,
-  "receivedAt": "2026-01-01T12:00:00.000Z",
-  "source": "site-lista-de-espera"
-}
-```
-
-Para um destino novo (planilha, CRM, e-mail), basta implementar `WaitlistAdapter`
-e registrá-lo em `getWaitlistAdapter`.
+Veja [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) para configurar a planilha, service account, secrets, KV, Pages e DNS.
 
 ---
 
@@ -230,12 +182,12 @@ node scripts/contrast.mjs "#3A4356" "#FFFFFF"   # um par específico
 
 ## Estrutura
 
-```
+```text
+.github/workflows/deploy-pages.yml   valida e publica `out/` no GitHub Pages
+docs/DEPLOYMENT.md                   configuração operacional e recuperação
 src/
   app/
     (site)/                     landing, política de privacidade, termos
-    api/waitlist/route.ts       endpoint POST da lista de espera
-    onboarding/                 wizard privado (noindex)
     layout.tsx  robots.ts  sitemap.ts  opengraph-image.tsx
   components/                   brand, layout, sections, faq, waitlist, review, seo, legal
   config/
@@ -243,8 +195,12 @@ src/
     project.config.ts           a única fonte de verdade
     content/                    textos, páginas legais, classificação de escopo
     brand-assets.ts             leitura tolerante de public/brand/manifest.json
-  lib/                          schema, telefone, adaptadores, rate limit, dedupe
+  lib/                          schema, telefone e utilitários do frontend
   styles/                       tokens.css (com os contrastes) e globals.css
+worker/
+  index.ts                      HTTP, validação, CORS, KV e contrato da API
+  google-sheets.ts              autenticação e persistência no Google Sheets
+wrangler.jsonc                  bindings e variáveis não secretas da Worker
 ```
 
 Nenhum texto, URL ou flag é escrito direto em componente: tudo vem da
@@ -257,15 +213,8 @@ configuração.
 Runtime: `next`, `react`, `react-dom`, `zod`.
 
 Desenvolvimento: `typescript`, `@types/*`, `eslint`, `eslint-config-next`,
-`vitest`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`,
+`vitest`, `wrangler`, `@cloudflare/workers-types`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`,
 `@testing-library/user-event`, `@testing-library/jest-dom`.
-
-Adição fora da lista original:
-
-- **`@eslint/eslintrc`** (dev) — `eslint-config-next@15.5.x` ainda só publica
-  configuração no formato legado. O bridge `FlatCompat` é necessário para usá-la
-  com o ESLint 9 em flat config. É o mesmo pacote que o `create-next-app`
-  adiciona. Nenhuma dependência de runtime foi acrescentada.
 
 Decisões de stack:
 
@@ -276,39 +225,18 @@ Decisões de stack:
 - **Sem analytics, sem cookies, sem fontes de terceiros em runtime.** As fontes
   são baixadas na build e servidas pelo próprio domínio, então nenhum IP de
   visitante vaza para um terceiro.
-- **`next` foi fixado em 15.5.23**, e não em 15.5.4, porque a versão anterior
-  tem vulnerabilidade conhecida (CVE-2025-66478).
+- **Next 16 com `output: 'export'`.** O GitHub Pages recebe somente arquivos estáticos; dados e credenciais ficam na Worker.
 
 ---
 
 ## Publicação
 
-Nada foi comprado ou configurado ainda.
-
-- **Subdomínio (recomendado para começar):** slug sugerido `felipecarvalho`.
-  Basta apontar o subdomínio para o deploy e ajustar `NEXT_PUBLIC_SITE_URL`.
-- **Domínio próprio:** ainda não escolhido nem registrado. Antes de migrar,
-  defina quem controla o registro, o DNS e a renovação — perder a renovação
-  derruba o site inteiro.
-
-Antes de publicar:
-
-1. `NEXT_PUBLIC_REVIEW_MODE=false`;
-2. `NEXT_PUBLIC_SITE_URL` com a URL pública real (afeta canonical, Open Graph,
-   `sitemap.xml` e `robots.txt`);
-3. escolher e testar o adaptador da lista de espera — em `mock`, nenhum contato
-   é salvo;
-4. confirmar que `/onboarding` continua fora do índice (`robots.txt`, metadata e
-   header `X-Robots-Tag` já cobrem isso).
+O workflow `.github/workflows/deploy-pages.yml` valida o projeto, gera `out/` com `NEXT_PUBLIC_SITE_URL=https://psicologogay.hudilabs.com` e publica pelo GitHub Pages. A variável Actions `NEXT_PUBLIC_WAITLIST_ENDPOINT` é obrigatória. O domínio customizado está registrado em `public/CNAME`.
 
 ### Limitações conhecidas do MVP
 
-- Rate limit e detecção de duplicidade são **em memória e por processo**: eles
-  reiniciam junto com o servidor e não são compartilhados entre instâncias. Em
-  ambiente serverless com várias instâncias, a proteção fica mais fraca.
-- O adaptador `mock` não persiste nada. Enquanto ele estiver ativo, o site
-  funciona, mas nenhum contato é guardado.
-- `/onboarding` não tem autenticação. Quem tiver o endereço, entra.
+- O contador em KV é persistente, mas operações concorrentes de leitura/escrita não são atômicas. Use Cloudflare Rate Limiting se o tráfego exigir garantia mais forte.
+- O deploy ainda depende das contas externas, IDs, secrets, DNS e revisão jurídica listados em [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ---
 
@@ -324,8 +252,8 @@ Antes de publicar:
 - [ ] Definição do canal operacional (muda se o telefone é obrigatório)
 - [ ] Abrangência geográfica do atendimento on-line
 - [ ] Contatos oficiais de emergência validados (nenhum número é publicado sem isso)
-- [ ] Domínio ou subdomínio definido e configurado
-- [ ] Escolha de um destino real para a lista de espera
+- [ ] DNS e GitHub Pages configurados para `psicologogay.hudilabs.com`
+- [ ] Worker, KV, service account e planilha configurados e testados
 
 ## Licença e uso
 
