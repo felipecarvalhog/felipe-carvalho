@@ -1,0 +1,15 @@
+{
+  "logoHorizontalColor":    { "src": "/brand/logo-horizontal-color.svg",    "width": 1375, "height": 479 },
+  "logoVerticalColor":      { "src": "/brand/logo-vertical-color.svg",      "width": 843,  "height": 629 },
+  "logoHorizontalWhite":    { "src": "/brand/logo-horizontal-white.svg",    "width": 1375, "height": 479 },
+  "logoHorizontalNegative": { "src": "/brand/logo-horizontal-negative.png", "width": 5501, "height": 1916 },
+  "symbol":                 { "src": "/brand/symbol.svg",                   "width": 490,  "height": 388 },
+  "favicon":                { "src": "/brand/favicon.svg",                  "width": 490,  "height": 490 },
+
+  "logoVerticalWhite":      { "src": "/brand/logo-vertical-white.svg",      "width": 843,  "height": 629 },
+  "logoVerticalNegative":   { "src": "/brand/logo-vertical-negative.png",   "width": 3369, "height": 2515 },
+  "symbolWhite":            { "src": "/brand/symbol-white.svg",             "width": 490,  "height": 388 },
+  "faviconIco":             { "src": "/brand/favicon.ico",                  "width": 48,   "height": 48 },
+  "faviconPng":             { "src": "/brand/favicon-512.png",              "width": 512,  "height": 512 },
+  "appleTouchIcon":         { "src": "/brand/apple-touch-icon.png",         "width": 180,  "height": 180 }
+}

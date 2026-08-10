@@ -1,0 +1,92 @@
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
+.image {
+  width: auto;
+  /* Intrinsic width/height are always passed, so the box is reserved. */
+}
+
+.image.md {
+  height: 2.5rem;
+}
+
+.image.sm {
+  height: 2rem;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: var(--radius-pill);
+}
+
+.mark svg {
+  display: block;
+}
+
+.md .mark {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.sm .mark {
+  width: 2.125rem;
+  height: 2.125rem;
+}
+
+.text {
+  display: grid;
+  gap: 0.1rem;
+  line-height: 1.15;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+}
+
+.md .name {
+  font-size: 1.125rem;
+}
+
+.sm .name {
+  font-size: 1rem;
+}
+
+.role {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.light {
+  color: var(--color-ink);
+}
+
+.light .mark {
+  color: var(--brand-cobalt);
+  background-color: var(--brand-mist-tint);
+}
+
+.light .role {
+  color: var(--color-muted);
+}
+
+.deep {
+  color: var(--color-on-deep);
+}
+
+.deep .mark {
+  color: var(--brand-mist);
+  background-color: rgb(255 255 255 / 8%);
+}
+
+.deep .role {
+  color: var(--color-on-deep-muted);
+}

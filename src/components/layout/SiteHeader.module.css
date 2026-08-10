@@ -1,0 +1,195 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgb(255 255 255 / 88%);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+  padding-block: var(--space-2);
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  /* The compact mark is only 40 × 32; the link still has to be as easy to hit
+     as every other control in the bar. */
+  min-height: var(--target-min);
+  min-width: var(--target-min);
+  flex: 0 1 auto;
+  text-decoration: none;
+}
+
+.logoWide {
+  display: none;
+}
+
+.logoCompact {
+  display: inline-flex;
+}
+
+.desktopNav {
+  display: none;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-body);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.navLink:hover {
+  background-color: var(--brand-mist-tint);
+  color: var(--color-ink);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+}
+
+.desktopCta {
+  display: none;
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  min-width: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-border-interactive);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.menuButton:hover {
+  border-color: var(--color-ink);
+  background-color: var(--color-surface-subtle);
+}
+
+.menuIcon {
+  display: grid;
+  gap: 4px;
+  width: 18px;
+}
+
+.barTop,
+.barMid,
+.barBottom,
+.barTopOpen,
+.barMidOpen,
+.barBottomOpen {
+  display: block;
+  height: 2px;
+  width: 100%;
+  border-radius: 2px;
+  background-color: currentColor;
+  transition: transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.barTopOpen {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.barMidOpen {
+  opacity: 0;
+}
+
+.barBottomOpen {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.panel {
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface);
+  padding-block: var(--space-4) var(--space-6);
+  max-height: calc(100svh - var(--header-height));
+  overflow-y: auto;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panelList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-4);
+}
+
+.panelLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.panelLink:hover {
+  background-color: var(--brand-mist-tint);
+}
+
+.panelCta {
+  width: 100%;
+}
+
+@media (min-width: 30rem) {
+  .logoWide {
+    display: inline-flex;
+  }
+
+  .logoCompact {
+    display: none;
+  }
+}
+
+@media (min-width: 56rem) {
+  .desktopNav {
+    display: block;
+  }
+
+  .desktopCta {
+    display: inline-flex;
+  }
+
+  .menuButton {
+    display: none;
+  }
+
+  .panel {
+    display: none;
+  }
+}

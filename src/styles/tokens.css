@@ -1,0 +1,179 @@
+/* =============================================================================
+   Design tokens — Felipe Carvalho
+   Brand concept: pensamento, conexão e acolhimento.
+   -----------------------------------------------------------------------------
+   CONTRAST VERIFICATION (WCAG 2.2 AA — 4.5:1 body text, 3:1 large text and UI
+   component boundaries). Ratios computed with the sRGB relative-luminance
+   formula by `scripts/contrast.mjs`; re-run it after changing any colour.
+
+   Text pairs
+     #171C26 ink        on #FFFFFF surface .............. 17.07:1  AAA
+     #3A4356 body       on #FFFFFF surface ..............  9.92:1  AAA
+     #5A6478 muted      on #FFFFFF surface ..............  5.95:1  AA
+     #4D576B slate      on #FFFFFF surface ..............  7.26:1  AAA
+     #2B4BA9 cobalt     on #FFFFFF surface ..............  7.83:1  AAA
+     #171C26 ink        on #F6F8FB surface-subtle ....... 16.04:1  AAA
+     #3A4356 body       on #F6F8FB surface-subtle .......  9.32:1  AAA
+     #5A6478 muted      on #F6F8FB surface-subtle .......  5.59:1  AA
+     #2B4BA9 cobalt     on #F6F8FB surface-subtle .......  7.36:1  AAA
+     #171C26 ink        on #E9F3F6 brand-mist-tint ...... 15.13:1  AAA
+     #3A4356 body       on #E9F3F6 brand-mist-tint ......  8.79:1  AAA
+     #4D576B slate      on #E9F3F6 brand-mist-tint ......  6.44:1  AAA
+     #5A6478 muted      on #E9F3F6 brand-mist-tint ......  5.28:1  AA
+     #2B4BA9 cobalt     on #E9F3F6 brand-mist-tint ......  6.94:1  AAA
+     #171C26 ink        on #EEF3FA brand-lavender-tint .. 15.31:1  AAA
+     #3A4356 body       on #EEF3FA brand-lavender-tint ..  8.90:1  AAA
+     #5A6478 muted      on #EEF3FA brand-lavender-tint ..  5.34:1  AA
+     #2B4BA9 cobalt     on #EEF3FA brand-lavender-tint ..  7.02:1  AAA
+     #4D576B slate      on #F6F8FB surface-subtle .......  6.83:1  AAA
+     #171C26 ink        on #CEE4EA brand-mist ........... 12.93:1  AAA
+     #3A4356 body       on #CEE4EA brand-mist ...........  7.51:1  AAA
+     #2B4BA9 cobalt     on #CEE4EA brand-mist ...........  5.93:1  AA
+     #171C26 ink        on #D0DEED brand-lavender-blue .. 12.48:1  AAA
+     #3A4356 body       on #D0DEED brand-lavender-blue ..  7.25:1  AAA
+     #FFFFFF            on #2B4BA9 brand-cobalt .........  7.83:1  AAA  (primary button)
+     #FFFFFF            on #223C87 cobalt-strong ........ 10.17:1  AAA  (button hover)
+     #FFFFFF            on #232B3A deep (footer) ........ 14.21:1  AAA
+     #CEE4EA brand-mist on #232B3A deep ................. 10.76:1  AAA
+     #B9C4D6 footer-mut on #232B3A deep ..................  8.07:1  AAA  (footer is 15px, still AAA)
+
+   Status pairs (each also carries a non-colour cue — icon/shape/label)
+     #1F5A46 success on #FFFFFF 8.05:1 · on #E8F3EF tint 7.09:1
+     #A32222 danger  on #FFFFFF 7.48:1 · on #FCEDED tint 6.58:1
+     #7A4A05 warning on #FFFFFF 7.48:1 · on #FFF5E4 tint 6.92:1
+
+   Non-text / UI component boundaries (need 3:1)
+     #7A879E border-interactive on #FFFFFF ..............  3.63:1  AA
+     #7A879E border-interactive on #F6F8FB ..............  3.41:1  AA
+     #7A879E border-interactive on #E9F3F6 ..............  3.22:1  AA
+     #2B4BA9 focus ring        on #FFFFFF ...............  7.83:1  AA
+     #2B4BA9 focus ring        on #CEE4EA ...............  5.93:1  AA
+     #CEE4EA focus ring        on #232B3A ............... 10.76:1  AA
+     #CFD8E4 border-subtle is DECORATIVE ONLY (1.44:1) — never the sole
+     indicator of an interactive control boundary.
+   ========================================================================== */
+
+:root {
+  /* --- Brand palette (fixed, do not alter) ------------------------------- */
+  --brand-mist: #cee4ea;
+  --brand-lavender-blue: #d0deed;
+  --brand-slate: #4d576b;
+  --brand-cobalt: #2b4ba9;
+
+  /* --- Brand dots (six-colour micro detail) -------------------------------
+     The mark carries six coloured dots. The identity manual never documented
+     them, so these values were MEASURED from the vector master and confirmed
+     by pixel census on the designer's PNGs (docs/ASSETS.md §4.1). They are
+     pending formalisation by the designer.
+
+     They exist here so that, on the day the Progress Pride reference is
+     authorised, nobody invents approximations. Until
+     `brand.progressPrideReferenceApproved` is true they render nowhere. */
+  --brand-dot-1: #c30b0b; /* vermelho */
+  --brand-dot-2: #e58b21; /* laranja */
+  --brand-dot-3: #faec37; /* amarelo */
+  --brand-dot-4: #6cbe2d; /* verde */
+  --brand-dot-5: #3e63ff; /* azul */
+  --brand-dot-6: #8f0ac6; /* roxo */
+
+  /* --- Derived brand steps ---------------------------------------------- */
+  --brand-cobalt-strong: #223c87;
+  --brand-mist-tint: #e9f3f6;
+  --brand-lavender-tint: #eef3fa;
+  --brand-deep: #232b3a;
+
+  /* --- Neutrals ---------------------------------------------------------- */
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f6f8fb;
+  --color-ink: #171c26;
+  --color-body: #3a4356;
+  --color-muted: #5a6478;
+  --color-on-deep: #ffffff;
+  --color-on-deep-muted: #b9c4d6;
+  --color-border-subtle: #cfd8e4;
+  --color-border-interactive: #7a879e;
+
+  /* --- Status ------------------------------------------------------------ */
+  --color-success: #1f5a46;
+  --color-success-surface: #e8f3ef;
+  --color-danger: #a32222;
+  --color-danger-surface: #fceded;
+  --color-warning: #7a4a05;
+  --color-warning-surface: #fff5e4;
+
+  /* --- Typography -------------------------------------------------------- */
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid scale, 360px → 1440px viewport. Base body stays >= 17px. */
+  --text-xs: 0.875rem; /* 14px — smallest allowed anywhere, incl. footer */
+  --text-sm: 0.9375rem; /* 15px */
+  --text-base: clamp(1.0625rem, 1.02rem + 0.2vw, 1.125rem);
+  --text-lg: clamp(1.1875rem, 1.12rem + 0.3vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.28rem + 0.42vw, 1.625rem);
+  --text-2xl: clamp(1.625rem, 1.46rem + 0.73vw, 2.125rem);
+  --text-3xl: clamp(2rem, 1.72rem + 1.24vw, 2.875rem);
+  --text-4xl: clamp(2.375rem, 1.9rem + 2.1vw, 3.75rem);
+
+  --leading-tight: 1.14;
+  --leading-snug: 1.28;
+  --leading-normal: 1.62;
+  --leading-relaxed: 1.72;
+
+  --tracking-tight: -0.022em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+
+  /* --- Spacing (4px base) ------------------------------------------------ */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --space-11: 6.5rem;
+  --space-12: 8rem;
+
+  /* Generous vertical rhythm between editorial blocks. */
+  --section-gap: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
+
+  /* --- Layout ------------------------------------------------------------ */
+  --measure: 68ch;
+  --container-wide: 76rem;
+  --container-text: 46rem;
+  --header-height: 4.5rem;
+
+  /* --- Shape ------------------------------------------------------------- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-pill: 999px;
+
+  /* --- Elevation (restrained; the design leans on space, not shadow) ----- */
+  --shadow-sm: 0 1px 2px rgb(23 28 38 / 6%), 0 1px 1px rgb(23 28 38 / 4%);
+  --shadow-md: 0 8px 24px -12px rgb(23 28 38 / 18%), 0 2px 6px -3px rgb(23 28 38 / 8%);
+  --shadow-focus: 0 0 0 3px rgb(255 255 255 / 100%), 0 0 0 6px var(--brand-cobalt);
+
+  /* --- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-thread: 2400ms;
+
+  /* Minimum comfortable target (WCAG 2.2 Target Size AA is 24px; we use 44). */
+  --target-min: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-thread: 1ms;
+  }
+}

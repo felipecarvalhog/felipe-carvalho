@@ -1,0 +1,41 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--brand-cobalt);
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.16;
+}
+
+.path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-thread var(--duration-thread) var(--ease-out) 180ms 1 forwards;
+}
+
+@keyframes draw-thread {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Below the text column the thread would sit under the copy, so it is faded
+   further rather than removed — the connection stays, the noise does not. */
+@media (max-width: 47.99rem) {
+  .svg {
+    opacity: 0.1;
+  }
+}

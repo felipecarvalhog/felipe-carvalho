@@ -1,0 +1,24 @@
+.stroke {
+  position: absolute;
+  top: -18%;
+  right: -26%;
+  z-index: 0;
+  width: min(78vw, 46rem);
+  pointer-events: none;
+  color: var(--brand-cobalt);
+  opacity: 0.055;
+  transform: rotate(-9deg);
+}
+
+.stroke svg {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 47.99rem) {
+  .stroke {
+    top: -10%;
+    right: -42%;
+    opacity: 0.04;
+  }
+}
