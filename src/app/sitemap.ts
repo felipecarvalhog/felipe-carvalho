@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { siteUrl } from '@/config/public-env';
+import { isReviewMode, siteUrl } from '@/config/public-env';
 
 export const dynamic = 'force-static';
 
 /** Only indexable pages. `/onboarding` is intentionally absent. */
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (isReviewMode) return [];
+
   const lastModified = new Date();
 
   return [

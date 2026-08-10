@@ -26,8 +26,8 @@ export function ReviewPanel() {
           <div className={styles.panelBody}>
             <p className={styles.panelIntro}>
               Este painel só aparece com <code>NEXT_PUBLIC_REVIEW_MODE=true</code> e
-              deve ser desligado antes da publicação. Nada aqui é visível para o
-              público final.
+              está visível nesta revisão pública para orientar a aprovação do
+              Felipe. Ele deve ser desligado antes da publicação definitiva.
             </p>
 
             <h2 className={styles.panelHeading}>

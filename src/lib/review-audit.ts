@@ -107,11 +107,6 @@ export const collectMissingItems = (): PendingEntry[] => {
     value: 'Abrangência geográfica do atendimento on-line',
     note: 'Ainda não confirmada, por isso não aparece no FAQ.',
   });
-  items.push({
-    path: 'operacao.dominio',
-    value: 'Domínio próprio',
-    note: 'Nenhum domínio foi comprado ou configurado.',
-  });
 
   return items;
 };

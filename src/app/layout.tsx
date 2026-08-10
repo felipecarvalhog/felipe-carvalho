@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Source_Sans_3 } from 'next/font/google';
 import { getBrandAsset } from '@/config/brand-assets';
 import { projectConfig } from '@/config/project.config';
-import { siteUrl } from '@/config/public-env';
+import { isReviewMode, siteUrl } from '@/config/public-env';
 import { resolveAsset } from '@/lib/public-assets';
 import '@/styles/globals.css';
 
@@ -60,8 +60,12 @@ export const metadata: Metadata = {
       : [{ url: '/icon.svg', type: 'image/svg+xml' }],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: !isReviewMode,
+    follow: !isReviewMode,
+    googleBot: {
+      index: !isReviewMode,
+      follow: !isReviewMode,
+    },
   },
   formatDetection: { telephone: false, address: false, email: false },
 };

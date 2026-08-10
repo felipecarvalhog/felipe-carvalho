@@ -113,8 +113,16 @@ describe('projectConfig — professional identification', () => {
   });
 
   it('communicates availability only as a status', () => {
-    expect(projectConfig.service.availabilityStatus).toBe('limited');
+    expect(projectConfig.service.availabilityStatus).toBe('waitlist-closed');
     expect(allCopy).not.toMatch(/cinco pessoas|5 pessoas/i);
+  });
+
+  it('keeps data collection disabled in the public review', () => {
+    expect(projectConfig.content.headerCta.value).toBe('Ver disponibilidade');
+    expect(projectConfig.content.hero.primaryCta.value).toBe('Ver disponibilidade');
+    expect(projectConfig.content.waitlist.closedNoticeNoChannel.value).toContain(
+      'não recebe cadastros',
+    );
   });
 });
 

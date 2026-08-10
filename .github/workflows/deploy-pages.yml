@@ -21,10 +21,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Require public Worker endpoint
-        env:
-          WAITLIST_ENDPOINT: ${{ vars.NEXT_PUBLIC_WAITLIST_ENDPOINT }}
-        run: test -n "$WAITLIST_ENDPOINT"
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
@@ -32,8 +28,7 @@ jobs:
       - run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: https://psicologogay.hudilabs.com
-          NEXT_PUBLIC_WAITLIST_ENDPOINT: ${{ vars.NEXT_PUBLIC_WAITLIST_ENDPOINT }}
-          NEXT_PUBLIC_REVIEW_MODE: "false"
+          NEXT_PUBLIC_REVIEW_MODE: "true"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

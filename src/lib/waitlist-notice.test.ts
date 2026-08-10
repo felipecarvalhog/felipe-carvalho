@@ -19,7 +19,7 @@ describe('resolveClosedNotice', () => {
 
     expect(notice.text).toBe(copy.closedNoticeNoChannel);
     expect(notice.text.value).toBe(
-      'A lista de espera está temporariamente fechada no momento.',
+      'A lista de espera está em configuração e não recebe cadastros nesta versão de revisão.',
     );
     expect(notice.instagramUrl).toBeUndefined();
   });

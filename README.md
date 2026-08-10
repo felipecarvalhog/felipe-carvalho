@@ -231,7 +231,19 @@ Decisões de stack:
 
 ## Publicação
 
-O workflow `.github/workflows/deploy-pages.yml` valida o projeto, gera `out/` com `NEXT_PUBLIC_SITE_URL=https://psicologogay.hudilabs.com` e publica pelo GitHub Pages. A variável Actions `NEXT_PUBLIC_WAITLIST_ENDPOINT` é obrigatória. O domínio customizado está registrado em `public/CNAME`.
+O workflow `.github/workflows/deploy-pages.yml` valida o projeto, gera `out/` com
+`NEXT_PUBLIC_SITE_URL=https://psicologogay.hudilabs.com` e publica pelo GitHub
+Pages. A publicação atual é uma revisão pública:
+
+- `NEXT_PUBLIC_REVIEW_MODE=true` mostra as pendências para aprovação;
+- a lista de espera está fechada e nenhum formulário coleta dados;
+- `robots.txt`, sitemap e metadados impedem a indexação;
+- o domínio customizado está registrado em `public/CNAME`.
+
+Para a publicação definitiva, configure a Worker e a variável Actions
+`NEXT_PUBLIC_WAITLIST_ENDPOINT`, reabra a lista em `project.config.ts`, altere
+`NEXT_PUBLIC_REVIEW_MODE` para `false` e execute novamente toda a validação.
+Veja o roteiro em `docs/DEPLOYMENT.md`.
 
 ### Limitações conhecidas do MVP
 

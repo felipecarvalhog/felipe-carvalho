@@ -34,13 +34,27 @@ Depois, teste `OPTIONS /waitlist`, uma origem recusada e um envio piloto autoriz
 
 ## 3. GitHub Pages
 
-1. No repositório, crie a variável Actions `NEXT_PUBLIC_WAITLIST_ENDPOINT` com a URL HTTPS da Worker terminada em `/waitlist`.
-2. Em **Settings > Pages**, escolha **GitHub Actions** como fonte.
-3. Verifique `hudilabs.com` na organização/conta GitHub.
-4. No DNS, crie o CNAME `psicologogay` apontando para o host Pages da conta, como `usuario-ou-org.github.io`.
-5. Execute o workflow `Deploy GitHub Pages` e habilite **Enforce HTTPS** quando o certificado estiver pronto.
+### Revisão pública atual
 
-O workflow interrompe o build se a URL da Worker não estiver configurada e publica exclusivamente `out/`. O artefato não contém `/api` nem `/onboarding`.
+1. Em **Settings > Pages**, escolha **GitHub Actions** como fonte.
+2. Verifique `hudilabs.com` na organização/conta GitHub.
+3. No DNS, crie o CNAME `psicologogay` apontando para o host Pages da conta, como `usuario-ou-org.github.io`.
+4. Execute o workflow `Deploy GitHub Pages` e habilite **Enforce HTTPS** quando o certificado estiver pronto.
+
+O workflow atual usa `NEXT_PUBLIC_REVIEW_MODE=true`, mantém a lista fechada e
+publica `robots.txt`, sitemap e metadados sem indexação. Ele não exige uma URL
+da Worker porque nenhum formulário é renderizado.
+
+### Passagem para produção
+
+1. Conclua a revisão editorial, ética e jurídica registrada no README.
+2. Configure e teste Google Sheets, service account, KV e Cloudflare Worker.
+3. No repositório, crie a variável Actions `NEXT_PUBLIC_WAITLIST_ENDPOINT` com a URL HTTPS da Worker terminada em `/waitlist`.
+4. Em `src/config/project.config.ts`, mude `availabilityStatus` de `waitlist-closed` para `limited` ou `open`.
+5. Em `.github/workflows/deploy-pages.yml`, restaure a validação obrigatória de `NEXT_PUBLIC_WAITLIST_ENDPOINT`, passe a variável para a build e defina `NEXT_PUBLIC_REVIEW_MODE=false`.
+6. Execute lint, typecheck, testes, build e um envio piloto antes do novo deploy.
+
+O workflow publica exclusivamente `out/`. O artefato não contém `/api` nem `/onboarding`.
 
 ## 4. Rotação e recuperação
 

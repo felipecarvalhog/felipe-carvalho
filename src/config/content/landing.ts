@@ -23,7 +23,7 @@ export const nav: readonly NavLink[] = [
 
 export const skipLinkLabel = confirmed('Ir para o conteúdo');
 
-export const headerCta = confirmed('Entrar na lista de espera');
+export const headerCta = confirmed('Ver disponibilidade');
 
 export const seo: SeoContent = {
   title: pending(
@@ -47,7 +47,7 @@ export const hero: HeroContent = {
     'Atendimento em Terapia Cognitivo-Comportamental (TCC) e abordagem afirmativa, com foco especial na população LGBTQIA+.',
   ),
   paragraphs: [],
-  primaryCta: confirmed('Entrar na lista de espera'),
+  primaryCta: confirmed('Ver disponibilidade'),
   secondaryCta: confirmed('Conhecer meu trabalho'),
   trustSignals: [
     { id: 'trust-online', label: confirmed('On-line') },
@@ -272,7 +272,7 @@ export const howItWorks: HowItWorksContent = {
 };
 
 export const waitlist: WaitlistContent = {
-  title: confirmed('Entre na lista de espera'),
+  title: confirmed('Lista de espera'),
   intro: confirmed(
     'No momento, a agenda está com disponibilidade limitada. Deixe seus dados para entrar na lista de espera. Quando surgir uma vaga, entrarei em contato para verificar se você ainda tem interesse em iniciar a terapia.',
   ),
@@ -280,8 +280,8 @@ export const waitlist: WaitlistContent = {
     'A lista de espera está temporariamente fechada. Você ainda pode conhecer o trabalho de Felipe pelo Instagram.',
   ),
   closedNoticeNoChannel: pending(
-    'A lista de espera está temporariamente fechada no momento.',
-    'WL-CLOSED-ALT. Usada quando a lista fecha antes de o Instagram ser confirmado, já que WL-CLOSED cita esse canal. Redação do estúdio; depende de aprovação.',
+    'A lista de espera está em configuração e não recebe cadastros nesta versão de revisão.',
+    'Aviso temporário para a revisão pública, enquanto o canal de contato e o destino seguro dos dados não forem configurados.',
   ),
   consentLabel: confirmed(
     'Li e concordo com a Política de Privacidade e autorizo o tratamento dos meus dados para contato sobre a lista de espera e o agendamento.',

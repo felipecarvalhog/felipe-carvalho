@@ -58,7 +58,7 @@ export const projectConfig: ProjectConfig = {
     sessionMinutes: 50,
     platform: 'Google Meet',
     // The only publishable description of the agenda. Never expose caseload.
-    availabilityStatus: 'limited',
+    availabilityStatus: 'waitlist-closed',
   },
 
   content: {
