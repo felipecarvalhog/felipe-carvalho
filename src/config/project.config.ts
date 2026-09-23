@@ -19,7 +19,7 @@ export const projectConfig: ProjectConfig = {
     displayName: 'Felipe Carvalho',
     profession: 'Psicólogo',
     registration: 'CRP 02/23810',
-    locationLabel: confirmed('Atua em Pernambuco · Atendimento 100% on-line'),
+    locationLabel: confirmed('Av. Presidente Getúlio Vargas, 1605. Olinda - Pernambuco · Atendimento 100% on-line'),
     photo: {
       src: '/felipe-carvalho-professional.jpg',
       width: 512,
